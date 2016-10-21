@@ -15,13 +15,19 @@ else
   ARCH="$SNAP_ARCH-linux-gnu"
 fi
 
-export XKB_CONFIG_ROOT=$SNAP/usr/share/X11/xkb
-export LIBGL_DRIVERS_PATH=$SNAP/usr/lib/$ARCH/dri
+export XKB_CONFIG_ROOT=$SNAP/qt-ubuntu/usr/share/X11/xkb
+export LIBGL_DRIVERS_PATH=$SNAP/qt-ubuntu/usr/lib/$ARCH/dri
+#export XKB_CONFIG_ROOT=$SNAP/usr/share/X11/xkb
+#export LIBGL_DRIVERS_PATH=$SNAP/usr/lib/$ARCH/dri
 
 # Qt Libs and Modules
-export LD_LIBRARY_PATH=$SNAP/lib:$SNAP/usr/lib/$ARCH/qt5/libs:$SNAP/usr/lib/$ARCH/dri:$LD_LIBRARY_PATH
-export QT_PLUGIN_PATH=$SNAP//plugins
-export QML2_IMPORT_PATH=$SNAP/qml:$SNAP/:$SNAP/lib/$ARCH:$QML2_IMPORT_PATH
+#export LD_LIBRARY_PATH=$SNAP/lib:$SNAP/usr/lib/$ARCH/qt5/libs:$SNAP/usr/lib/$ARCH/dri:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=$SNAP/lib:$SNAP/usr/lib/$ARCH/:$SNAP/usr/lib/$ARCH/dri:$SNAP/qt-ubuntu/usr/lib/$ARCH/:$SNAP/qt-ubuntu/usr/lib/$ARCH/dri:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$SNAP/lib:$SNAP/qt-ubuntu/usr/lib/$ARCH/:$SNAP/qt-ubuntu/usr/lib/$ARCH/mesa:$SNAP/qt-ubuntu/usr/lib/$ARCH/dri:$SNAP/usr/lib/$ARCH/:$SNAP/usr/lib/$ARCH/dri:$LD_LIBRARY_PATH
+#export QT_PLUGIN_PATH=$SNAP/plugins:$SNAP/usr/lib/$ARCH/qt5/plugins:$SNAP/qt-ubuntu/usr/lib/$ARCH/qt5/plugins
+export QT_PLUGIN_PATH=$SNAP/plugins:$SNAP/qt-ubuntu/usr/lib/$ARCH/qt5/plugins
+#export QML2_IMPORT_PATH=$SNAP/qml:$SNAP/:$SNAP/lib/$ARCH:$SNAP/usr/lib/$ARCH/qt5/qml:$SNAP/qt-ubuntu/usr/lib/$ARCH/qt5/qml:$QML2_IMPORT_PATH
+export QML2_IMPORT_PATH=$SNAP/qml:$SNAP/:$SNAP/lib/$ARCH:$SNAP/qt-ubuntu/usr/lib/$ARCH/qt5/qml:$QML2_IMPORT_PATH
 export MIR_CLIENT_PLATFORM_PATH=$SNAP/usr/lib/$ARCH/mir/client-platform
 
 # Set XDG_DATA_HOME to local path
@@ -34,19 +40,24 @@ export XDG_CACHE_HOME=$SNAP_USER_DATA/.cache
 mkdir -p $XDG_CACHE_HOME
 
 # Font Config and themes
-export FONTCONFIG_PATH=$SNAP/etc/fonts/conf.d
-export FONTCONFIG_FILE=$SNAP/etc/fonts/fonts.conf
+export FONTCONFIG_PATH=$SNAP/qt-ubuntu/etc/fonts/conf.d
+export FONTCONFIG_FILE=$SNAP/qt-ubuntu/etc/fonts/fonts.conf
+#export FONTCONFIG_PATH=$SNAP/etc/fonts/conf.d
+#export FONTCONFIG_FILE=$SNAP/etc/fonts/fonts.conf
 
 rm -rf $XDG_DATA_HOME/{fontconfig,fonts,fonts-*,themes,.themes}
-ln -sf $SNAP/usr/share/{fontconfig,fonts,fonts-*,themes} $XDG_DATA_HOME
-ln -sfn $SNAP/usr/share/themes $SNAP_USER_DATA/.themes
+ln -sf $SNAP/qt-ubuntu/usr/share/{fontconfig,fonts,fonts-*,themes} $XDG_DATA_HOME
+ln -sfn $SNAP/qt-ubuntu/usr/share/themes $SNAP_USER_DATA/.themes
+#ln -sf $SNAP/usr/share/{fontconfig,fonts,fonts-*,themes} $XDG_DATA_HOME
+#ln -sfn $SNAP/usr/share/themes $SNAP_USER_DATA/.themes
 
 # Necessary for the SDK to find the translations directory
 export APP_DIR=$SNAP
 
 # Removes Qt warning: Could not find a location
 # of the system Compose files
-export QTCOMPOSE=$SNAP/usr/share/X11/locale
+export QTCOMPOSE=$SNAP/qt-ubuntu/usr/share/X11/locale
+#export QTCOMPOSE=$SNAP/usr/share/X11/locale
 
 # Use GTK styling for running under Unity 7
 export GTK_PATH=$SNAP/usr/lib/$ARCH/gtk-2.0
@@ -55,7 +66,8 @@ export GTK_PATH=$SNAP/usr/lib/$ARCH/gtk-2.0
 export GDK_PIXBUF_MODULE_FILE=$XDG_CACHE_HOME/gdk-pixbuf-loaders.cache
 export GDK_PIXBUF_MODULEDIR=$SNAP/usr/lib/$ARCH/gdk-pixbuf-2.0/2.10.0/loaders
 
-export LOCPATH=$SNAP/usr/lib/locale
+export LOCPATH=$SNAP/qt-ubuntu/usr/lib/locale
+#export LOCPATH=$SNAP/usr/lib/locale
 
 #if [ $needs_update = true ]; then
 #  rm -f $GDK_PIXBUF_MODULE_FILE
@@ -89,5 +101,6 @@ export LOCPATH=$SNAP/usr/lib/locale
 #  done
 #fi
 
-exec "$SNAP/bin/qmlscene" "$SNAP/qtapp2/Main.qml"
+exec "$SNAP/qt-ubuntu/usr/lib/x86_64-linux-gnu/qt5/bin/qmlscene" "$SNAP/qtapp2/Main.qml"
+#exec "$SNAP/bin/bash"
 

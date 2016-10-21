@@ -82,6 +82,13 @@ class QmakePlugin(snapcraft.BasePlugin):
         super().__init__(name, options, project)
 
         self.build_packages.append('make')
+        #if self.options.qt_version == 'qt5':
+        #    self.build_packages.extend(['qt5-qmake', 'qtbase5-dev'])
+        #elif self.options.qt_version == 'qt4':
+        #    self.build_packages.extend(['qt4-qmake', 'libqt4-dev'])
+        #else:
+        #    raise RuntimeError('Unsupported Qt version: {!r}'.format(
+        #        self.options.qt_version))
 
     def build(self):
         super().build()
@@ -97,7 +104,6 @@ class QmakePlugin(snapcraft.BasePlugin):
             sources = [os.path.join(sourcedir, project_file)
                        for project_file in self.options.project_files]
 
-        #self.run([ self.project.parts_dir + '/qt57/build/qtbase/bin/qmake'] + self._extra_config() + self.options.options +
         self.run(['qmake'] + self._extra_config() + self.options.options +
                  sources, env=env)
 
@@ -114,25 +120,15 @@ class QmakePlugin(snapcraft.BasePlugin):
             paths = common.get_library_paths(root, self.project.arch_triplet)
             for path in paths:
                 extra_config.append("LIBS+=\"-L{}\"".format(path))
-            extra_config.append("LIBS+=\"-L{}\"".format(self.installdir + '/lib'))
-            extra_config.append("QMAKE_LIBS+=\"-L{}\"".format(self.installdir + '/lib'))
-            extra_config.append("QMAKE_LIBDIR+=\"{}\"".format(self.installdir + '/lib'))
 
             paths = common.get_include_paths(root, self.project.arch_triplet)
             for path in paths:
                 extra_config.append("INCLUDEPATH+=\"{}\"".format(path))
-            extra_config.append("INCLUDEPATH+=\"{}\"".format(self.installdir + '/include'))
-
-            extra_config.append("QML_IMPORT_PATH+=\"{}\"".format(self.installdir + '/qml'))
-            extra_config.append("QML2_IMPORT_PATH+=\"{}\"".format(self.installdir + '/qml'))
 
         return extra_config
 
     def _build_environment(self):
         env = os.environ.copy()
-        env['QTDIR' ] = self.installdir + '/'
-        env['QML_IMPORT_PATH' ] = self.installdir + '/qml'
-        env['QML2_IMPORT_PATH' ] = self.installdir + '/qml'
-        env['LD_LIBRARY_PATH' ] = self.installdir + '/lib:' + self.installdir + '/:'
-        env['PATH' ] = self.installdir + '/bin:' + os.environ["PATH"] 
+        env['QT_SELECT'] = self.options.qt_version
+
         return env

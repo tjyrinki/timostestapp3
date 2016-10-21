@@ -9,21 +9,35 @@ description: |
 grade: stable
 confinement: strict
 
+plugs:
+  qt-ubuntu:
+      content: qt-ubuntu
+      interface: content
+      target: qt-ubuntu
+
 parts:
   qtapp2:
-    after: [qt57]
     plugin: qmake
     qt-version: qt5
     source: .
-    stage-packages:
-            - libxkbcommon0
-            - ttf-ubuntu-font-family
-            - dmz-cursor-theme
-            - light-themes
-            - shared-mime-info
-            - libgdk-pixbuf2.0-0
-            - locales-all
-            - libglib2.0-bin
+    # Not suitable for cleanbuild at the moment
+    build-packages: []
+        #- qtbase5-dev
+        #- qtdeclarative5-dev
+        #- qt5-qmake
+        #- qt5-default
+        #- g++
+    stage-packages: []
+    filesets:
+         includedfiles:
+             - "backend/*"
+             - "bin/*"
+             - "qtapp2/*"
+             - "Qtapp2/*"
+             - "qt-ubuntu/*"
+             - "-usr/*"
+    snap:
+         - "$includedfiles"
 
   launcher:
     plugin: dump
@@ -34,4 +48,4 @@ parts:
 apps:
   timostestapp2:
     command: bin/qtapp2.run
-    plugs: ['home', 'unity7', 'opengl']
+    plugs: ['qt-ubuntu', 'home', 'unity7', 'opengl']

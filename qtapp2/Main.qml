@@ -1,38 +1,64 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import Qtapp2 1.0
-//import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 
-Column {
+MainView {
+    // Note! applicationName needs to match the .desktop filename
+    applicationName: "com.ubuntu.whereisloic"
 
-    width: 500
-    spacing: 20
+    width: units.gu(150)
+    height: units.gu(120)
 
-    Text {
-        maximumLineCount: 5
-        text: "Ubuntu\nfoo\n罗圈腿夹个浮板真费劲 =.=！ (at 浦东游泳馆源深分馆) — "
-        font.family: "Ubuntu"
+    Column {
+        anchors {
+            fill: parent
+            margins: units.gu(1)
+        }
+        spacing: units.gu(1)
+
+        Label {
+            maximumLineCount: 3
+            text: "Test 1 2 3."
+            width: parent.width
+            wrapMode: Text.Wrap
+            font.pointSize: 28
+        }
+
+        UbuntuShape {
+            width: units.gu(50)
+            height: units.gu(50)
+            aspect: UbuntuShape.DropShadow
+            radius: "large"
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            Image {
+                id: loic
+                anchors.centerIn: parent
+                source: "loic.jpeg"
+
+                states: State {
+                    name: "rotated"
+                    PropertyChanges { target: loic; rotation: 360000 }
+                }
+
+                transitions: Transition {
+                    RotationAnimation {
+                        duration: 6000000;
+                        direction: RotationAnimation.Clockwise
+                    }
+                }
+            }
+
+        }
+        Label {
+            maximumLineCount: 10
+            text: "This test app is running, confined, on top of shared Qt and Ubuntu UI Toolkit libraries .snap, using 300MB+ of shared data to save space.\n(and the same saving for each (sn)app)\n\nSnap store does not yet support the shared snap (reportedly fixed in master)"
+            width: parent.width
+            wrapMode: Text.Wrap
+            font.family: "Ubuntu"
+            font.pointSize: 28
+        }
     }
 
-    Text {
-        width: 400
-        text:
-          " this is a test "
-    }
-
-    Text {
-        maximumLineCount: 2
-        text: "Sans\nfoo"
-        font.family: "Sans"
-    }
-
-    Text {
-        maximumLineCount: 2
-        text: "Arial\nfoo"
-        font.family: "Arial"
-    }
-
-    Component.onCompleted: {
-      var datestring = "Wed, 18 Sep 2013 07:00:51 -0700"
-      console.log("Date.parse: ", Date.parse(datestring))
-    }
+    Component.onCompleted: loic.state = "rotated"
 }
