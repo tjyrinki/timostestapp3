@@ -4,7 +4,7 @@
 TEMPLATE = subdirs
 
 #load Ubuntu specific features
-load(ubuntu-click)
+#load(ubuntu-click)
 
 SUBDIRS += qtapp2 \
            backend/Qtapp2
