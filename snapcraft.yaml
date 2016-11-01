@@ -1,4 +1,4 @@
-name: timostestapp2
+name: timostestapp3
 version: '0.0.1~test'
 summary: Upstream Qt to be compiled as part of your project
 description: |
@@ -10,10 +10,10 @@ grade: stable
 confinement: strict
 
 plugs:
-  qt-ubuntu:
-      content: qt-ubuntu
+  ubuntu-qt-runtime:
+      content: ubuntu-qt-runtime
       interface: content
-      target: qt-ubuntu
+      target: ubuntu-qt-runtime
 
 parts:
   qtapp2:
@@ -34,7 +34,7 @@ parts:
              - "bin/*"
              - "qtapp2/*"
              - "Qtapp2/*"
-             - "qt-ubuntu/*"
+             - "ubuntu-qt-runtime/*"
              - "-usr/*"
     snap:
          - "$includedfiles"
@@ -46,6 +46,6 @@ parts:
       launcher: bin/qtapp2.run
 
 apps:
-  timostestapp2:
+  timostestapp3:
     command: bin/qtapp2.run
-    plugs: ['qt-ubuntu', 'home', 'unity7', 'opengl']
+    plugs: ['ubuntu-qt-runtime', 'home', 'unity7', 'opengl']
