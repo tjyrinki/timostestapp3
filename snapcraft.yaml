@@ -10,8 +10,8 @@ grade: stable
 confinement: strict
 
 plugs:
-  ubuntu-app-platform:
-      content: ubuntu-app-platform
+  platform:
+      content: ubuntu-app-platform1
       interface: content
       target: ubuntu-app-platform
 
@@ -48,4 +48,4 @@ parts:
 apps:
   timostestapp3:
     command: bin/qtapp2.run
-    plugs: ['ubuntu-app-platform', 'home', 'unity7', 'opengl']
+    plugs: ['platform', 'home', 'unity7', 'opengl']
