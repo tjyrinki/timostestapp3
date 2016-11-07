@@ -10,10 +10,10 @@ grade: stable
 confinement: strict
 
 plugs:
-  ubuntu-app-runtime:
-      content: ubuntu-app-runtime
+  ubuntu-app-platform:
+      content: ubuntu-app-platform
       interface: content
-      target: ubuntu-app-runtime
+      target: ubuntu-app-platform
 
 parts:
   qtapp2:
@@ -34,7 +34,7 @@ parts:
              - "bin/*"
              - "qtapp2/*"
              - "Qtapp2/*"
-             - "ubuntu-app-runtime/*"
+             - "ubuntu-app-platform/*"
              - "-usr/*"
     snap:
          - "$includedfiles"
@@ -48,4 +48,4 @@ parts:
 apps:
   timostestapp3:
     command: bin/qtapp2.run
-    plugs: ['ubuntu-app-runtime', 'home', 'unity7', 'opengl']
+    plugs: ['ubuntu-app-platform', 'home', 'unity7', 'opengl']
